@@ -1,17 +1,17 @@
-# PDF Annotation Mirror
+# PDFlip - PDF Annotation Flipper & Mirroring Tool
 
-A Python tool to accurately flip (mirror) annotations in PDF files, preserving both their position and shape.
+A Python tool for flipping PDF annotations horizontally and vertically (mirroring), with precise preservation of position and shape.
 
 ## Features
 
-- Flip PDF annotations horizontally and/or vertically
+- Flip/mirror PDF annotations horizontally and/or vertically
 - Supports multiple annotation types:
-  - Lines and arrows (including diagonal lines)
+  - Lines and arrows (including diagonal line flipping)
   - Polygons and polylines
   - Highlights, underlines, and strikethroughs
   - Ink annotations (freehand drawing)
   - Text annotations
-- Preserves annotation properties including:
+- Preserves annotation properties while flipping:
   - Colors
   - Line styles
   - Line endings
@@ -34,7 +34,7 @@ pip install pikepdf
 ### Basic Usage
 
 ```bash
-python pdf_annotation_mirror.py input.pdf
+python pdf_annotation_flip.py input.pdf
 ```
 
 This will create a file named `flipped_input.pdf` with all annotations horizontally flipped.
@@ -42,7 +42,7 @@ This will create a file named `flipped_input.pdf` with all annotations horizonta
 ### Command Line Options
 
 ```bash
-python pdf_annotation_mirror.py input.pdf [options]
+python pdf_annotation_flip.py input.pdf [options]
 ```
 
 Options:
@@ -55,38 +55,38 @@ Options:
 
 Flip vertically only:
 ```bash
-python pdf_annotation_mirror.py input.pdf --no-horizontal --vertical
+python pdf_annotation_flip.py input.pdf --no-horizontal --vertical
 ```
 
 Flip both horizontally and vertically:
 ```bash
-python pdf_annotation_mirror.py input.pdf --horizontal --vertical
+python pdf_annotation_flip.py input.pdf --horizontal --vertical
 ```
 
 Custom output file:
 ```bash
-python pdf_annotation_mirror.py input.pdf -o output.pdf
+python pdf_annotation_flip.py input.pdf -o output.pdf
 ```
 
 ## Technical Details
 
-### How It Works
+### How Flipping Works
 
 1. **Coordinate Transformation**: The tool applies mathematical transformations to flip annotation coordinates:
    - Horizontal flip: `x → width - x`
    - Vertical flip: `y → height - y`
 
-2. **Point Order Handling**: For multi-point annotations (polygons, polylines, ink), the tool may reverse point order to maintain proper visual appearance.
+2. **Point Order Handling**: For multi-point annotations (polygons, polylines, ink), the tool reverses point order to maintain proper visual appearance during flipping.
 
 3. **Line Direction Correction**: For diagonal lines, the tool correctly calculates new angles and may swap endpoints to achieve proper flipping.
 
-4. **Text Handling**: For text annotations, alignment and rotation are adjusted appropriately.
+4. **Text Handling**: For text annotations, alignment and rotation are adjusted appropriately when flipped.
 
-5. **Appearance Stream Removal**: The tool deletes appearance streams (AP) to force PDF viewers to re-render annotations based on the new coordinates.
+5. **Appearance Stream Removal**: The tool deletes appearance streams (AP) to force PDF viewers to re-render flipped annotations based on the new coordinates.
 
-### Supported Annotation Types
+### Supported Annotation Types for Flipping
 
-- `/Line`: Lines and arrows
+- `/Line`: Lines and arrows (with correct diagonal flipping)
 - `/Polygon`: Closed shapes
 - `/PolyLine`: Open paths
 - `/Square`, `/Circle`: Rectangle and circle shapes
@@ -97,12 +97,12 @@ python pdf_annotation_mirror.py input.pdf -o output.pdf
 ## Limitations
 
 - Some complex annotations with custom appearances might not flip perfectly
-- The tool does not modify the contents of the PDF document itself, only the annotations
+- The tool does not modify the contents of the PDF document itself, only flips the annotations
 
 ## Troubleshooting
 
-- If annotations don't appear correctly in the flipped PDF, try opening it in a different PDF viewer
-- Some PDF viewers might cache appearances - close and reopen the file to see changes
+- If flipped annotations don't appear correctly in the PDF, try opening it in a different PDF viewer
+- Some PDF viewers might cache appearances - close and reopen the file to see flipped changes
 - If annotations disappear after flipping, make sure the PDF doesn't have restrictions on editing
 
 ## License
@@ -111,4 +111,4 @@ This software is provided as-is under the MIT License. Feel free to use and modi
 
 ## Acknowledgments
 
-This tool uses the excellent [pikepdf](https://github.com/pikepdf/pikepdf) library, a Python wrapper around the QPDF library. 
+This PDF flipping tool uses the excellent [pikepdf](https://github.com/pikepdf/pikepdf) library, a Python wrapper around the QPDF library. 
